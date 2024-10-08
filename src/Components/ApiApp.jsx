@@ -1,7 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { Stack, TextInput, Button, Select, Group, Space } from '@mantine/core';
+import { Stack } from '@mantine/core';
+import Titulo from './titulo';
+import Conversor from './conversor';
+import { InfoConversion } from './InfoConversion';
+import './styles.css';
 
-export default function Api() {
+export default function ApiApp() {
   // Estado para la moneda seleccionada
   const [monedaSeleccionada, setMonedaSeleccionada] = useState('');
   // Estado para la tasa de cambio
@@ -16,20 +20,30 @@ export default function Api() {
     if (monedaSeleccionada) {
       fetch(`https://api.exchangerate-api.com/v4/latest/${monedaSeleccionada}`)
         .then(response => response.json())
-        .then(data => setTasa(data.rates.USD)) // Usamos la tasa de cambio a USD
+        .then(data => {
+          // Verificar si la tasa de cambio existe antes de establecerla
+          const tasaCambio = data.rates.USD; // Usamos la tasa de cambio a USD
+          if (tasaCambio) {
+            setTasa(tasaCambio);
+          } else {
+            console.error('Tasa de cambio no encontrada para USD');
+          }
+        })
         .catch(error => console.error('Error:', error));
     }
   }, [monedaSeleccionada]);
 
   // Maneja el cambio de moneda seleccionada
-  const manejarCambioMoneda = (event) => {
-    setMonedaSeleccionada(event.target.value);
+  const manejarCambioMoneda = (value) => {
+    setMonedaSeleccionada(value);
   };
 
   // Maneja la conversión de la cantidad ingresada
   const manejarConversion = () => {
     if (tasa && cantidad) {
       setCantidadConvertida((cantidad * tasa).toFixed(2)); // Convertimos la moneda seleccionada a USD
+    } else {
+      setCantidadConvertida(null); // Resetea la cantidad convertida si no hay tasa o cantidad
     }
   };
 
@@ -39,65 +53,22 @@ export default function Api() {
   };
 
   return (
-    <Stack align="center" >
-      <Group>
-        <Select
-          data={[
-            { value: '', label: '' },
-            { value: 'CLP', label: 'PESO CHILENO' },
-            { value: 'EUR', label: 'EURO' },
-            { value: 'JPY', label: 'YEN JAPONÉS' },
-            { value: 'GBP', label: 'LIBRA ESTERLINA' },
-            { value: 'MXN', label: 'PESO MEXICANO' },
-            { value: 'BRL', label: 'REAL BRASILEÑO' },
-            { value: 'CNY', label: 'YUAN CHINO' },
-            { value: 'INR', label: 'RUPIA INDIA' },
-            { value: 'CHF', label: 'FRANCO SUIZO' },
-            { value: 'CAD', label: 'DÓLAR CANADIENSE' },
-          ]}
-          value={monedaSeleccionada}
-          onChange={setMonedaSeleccionada}
-          label="Ingrese la moneda a convertir"
-          placeholder="Seleccione una moneda"
-          checkIconPosition="right"
-          withScrollArea={false}
-          styles={{ dropdown: { maxHeight: 200, overflowY: 'auto' } }}
-          mt="md"
-          size="md"
-          radius="lg"
-          variant="filled"
-        />
-        {monedaSeleccionada && (
-          <Group>
-            <Space w="xs" />
-            <TextInput 
-              mt="md"
-              size='md'
-              radius="lg"
-              label="Ingrese la cantidad a convertir"
-              type='number'
-              placeholder="Cantidad" 
-              value={cantidad} 
-              onChange={manejarCambioCantidad} 
-            />
-            <Button  
-              onClick={manejarConversion}
-              mt="xl"
-              size='md'
-              variant="outline"
-              radius="lg">Convertir
-            </Button>
-           
-          </Group>
-        )}
-      </Group>
+    <Stack>
+      <Titulo />
 
-      {cantidadConvertida && (
-        <Stack>
-          <p>Cantidad Convertida: {cantidadConvertida} USD</p> 
-          {/* Muestra la cantidad convertida en USD */}
-        </Stack>
-      )}
+      <br />
+
+      <InfoConversion />
+            
+      <Conversor
+        monedaSeleccionada={monedaSeleccionada}
+        cantidad={cantidad}
+        tasa={tasa}
+        cantidadConvertida={cantidadConvertida}
+        manejarCambioMoneda={manejarCambioMoneda}
+        manejarCambioCantidad={manejarCambioCantidad}
+        manejarConversion={manejarConversion}
+      />
     </Stack>
   );
 }

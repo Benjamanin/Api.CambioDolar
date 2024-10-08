@@ -1,0 +1,47 @@
+
+.titulo{
+    background: #063970;
+    display: flex;
+    /* padding: 10px; */
+    height: 64px;
+    color: aliceblue;
+}
+
+#text_header{
+    font-size: 24px;
+    margin: 0 auto;
+    padding: 10px;
+}
+
+.conversor{
+    width: 960px;
+    height: 360px;
+    display: flex;
+    margin: 0 auto;
+    justify-content: space-around;
+    
+}
+
+#infoconversion{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#parrafo{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    
+}
+.group_inner {
+    border: 2px solid rgb(3, 3, 103); /* Añade un borde de color negro */
+    border-radius: 20px; 
+    width: 370px;
+    height: 67px;
+    
+}
+
+.select {
+    width: 90px;
+}
