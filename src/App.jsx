@@ -1,7 +1,7 @@
 import './App.css'
 import '@mantine/core/styles.css';
 import { MantineProvider, Title } from '@mantine/core';
-import Api from './Components/Api';
+import Api from './Components/ApiApp';
 
 function App() {
   return (
