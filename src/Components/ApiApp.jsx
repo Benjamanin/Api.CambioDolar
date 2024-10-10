@@ -4,6 +4,7 @@ import Titulo from './titulo';
 import Conversor from './conversor';
 import { InfoConversion } from './infoConversion';
 import Banderas from './banderas';
+import Body from './Body';
 import './styles.css';
 
 export default function ApiApp() {
@@ -94,7 +95,9 @@ export default function ApiApp() {
         cotizaciones={cotizaciones}
         animarFlecha={animarFlecha}
 
-      /> 
+      />
+      
+      <Body /> 
 
     </Stack>
   );
