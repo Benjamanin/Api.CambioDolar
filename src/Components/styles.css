@@ -1,16 +1,24 @@
 
+/* Importar Fuente de Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Lobster&family=Montserrat:wght@400;700&family=Roboto:wght@400;700&display=swap');
+
 .titulo{
-    background: #063970;
+    
     display: flex;
-    /* padding: 10px; */
+    padding: 10px; 
     height: 64px;
     color: aliceblue;
 }
+
 
 #text_header{
     font-size: 24px;
     margin: 0 auto;
     padding: 10px;
+}
+
+.titulo_infc{
+    font-size: 30px;
 }
 
 .conversor{
@@ -31,23 +39,19 @@
 #parrafo{
     display: flex;
     justify-content: center;
-    align-items: center;
-    
+    align-items: center; 
 }
 .group_inner {
     border: 2px solid rgb(3, 3, 103); /* Añade un borde de color negro */
     border-radius: 20px; 
     width: 370px;
     height: 67px;
-    
 }
 
 .select {
     width: 80px;
     border: none;
     margin-left: 20px; 
-    
-    
 }
 
 .select:hover {
@@ -64,6 +68,7 @@
     position: static;
 }
 
+/* Animacion de las flechas */
 .flecha {
     animation: rotate 1s;
 }
@@ -82,18 +87,77 @@
     }
 }
 
-  .boton {
+.flecha_circular {
+    animation: rotate_circular 2s infinite;
+}
+/* Animacion de las flechas */
+
+
+.boton {
     margin-left: 145px;
     margin-top: 100px;
     position: static;
-  }
+}
 
-  #fec_actuali{
+#fec_actuali{
     margin-left: 100px;
     position: static;
-  }
+}
 
 
-.flecha_circular {
-    animation: rotate_circular 2s infinite;
+/* Todo lo que tiene que ver con explication */
+.explication {
+    width: 300px;
+    height: 300px;
+    border-radius: 20px;
+    margin: 0 auto;
+    
+}
+
+.titulo_exp{
+    font-family: 'Public Sans', sans-serif;
+    font-weight: bold;
+    font-size: 25px;
+    color: rgba(130, 118, 97, 0.907);
+
+}
+/* Todo lo que tiene que ver con explication */
+
+
+/* Todo lo que tiene que ver con body */
+.body {
+    width: 300px;
+    height: 330px;
+    border-radius: 20px;
+    margin: 0 auto;
+    
+}
+
+.titul{
+    display: center;
+    padding: 10px;
+    height: 55px;
+    font-size: 25px;
+    background: linear-gradient(88deg, rgb(0, 81, 255), rgb(26, 255, 0));
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;    
+}
+
+.subtitu{
+    font-family: 'Public Sans', sans-serif;
+    font-weight: bold;
+}
+/* Todo lo que tiene que ver con body */
+
+.rotar_dolar {
+    animation: rotate 20s infinite;
+}
+
+.group_body{
+    width: 960px;
+    align-items: center;
+
+    margin: 0 auto;
+    justify-content: space-around;
 }

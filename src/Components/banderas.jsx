@@ -6,7 +6,6 @@ import EUR from './icons/EUR.png';
 import BRL from './icons/BRL.png';
 import UYU from './icons/UYU.png';
 
-
 import flecha_circular from './icons/flecha_circular.png';
 import { Flex } from '@mantine/core';
 import './styles.css';
@@ -21,10 +20,9 @@ const monedas = {
 };
 
 export default function Banderas ({animarFlecha,
-    monedaSeleccionada,}
-    
+    monedaSeleccionada,
+}
 ) {
-   
     return (
         <div className='banderas'>
             
@@ -50,7 +48,6 @@ export default function Banderas ({animarFlecha,
      
             </Flex>
 
-            
         </div>
     );
 }

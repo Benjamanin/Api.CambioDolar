@@ -14,7 +14,6 @@ export default function ApiApp() {
   const [monedaSeleccionada, setMonedaSeleccionada] = useState(null);
   const [cantidad, setCantidad] = useState('');
   const [resultado, setResultado] = useState(null);
-  const [valorVentaDolar, setValorVentaDolar] = useState(null);
   const [animarFlecha, setAnimarFlecha] = useState(false);
 
   //El hook useEffect se ejecuta después de que el componente se renderiza por primera vez
@@ -24,10 +23,6 @@ export default function ApiApp() {
       .then(response => response.json())
       .then(data => {
         setCotizaciones(data);
-
-        // Se usaba para obtener el valor de venta del dólar y sacar el valor del euro
-        const dolar = data.find(moneda => moneda.moneda === 'USD');
-        setValorVentaDolar(dolar.venta); // Guarda el valor de venta del dólar
       })
       .catch(error => console.error('Error fetching data:', error));
 
@@ -76,8 +71,6 @@ export default function ApiApp() {
     <Stack>
       <Titulo />
 
-      <br />
-
       <InfoConversion monedaSeleccionada={monedaSeleccionada ? monedaSeleccionada.nombre : ''} />
 
       <Banderas 
@@ -85,11 +78,12 @@ export default function ApiApp() {
         monedaSeleccionada={monedaSeleccionada ? monedaSeleccionada.moneda : ''} 
       />
 
+      <br />
+      
       <Conversor
         monedaSeleccionada={monedaSeleccionada}
         cantidad={cantidad}
         resultado={resultado}
-        valorVentaDolar={valorVentaDolar}
         handleSelectChange={handleSelectChange}
         handleInputChange={handleInputChange}
         convertirMoneda={convertirMoneda}
@@ -97,8 +91,13 @@ export default function ApiApp() {
         animarFlecha={animarFlecha}
 
       />
-      
+
+      <br />
+
       <Body /> 
+
+      <br />
+
       <Explication/>
 
     </Stack>

@@ -3,7 +3,6 @@ import { TextInput, Button,   Grid, Group, Paper} from '@mantine/core';
 import Dolar from './icons/dolar.png';
 import Icon_Flecha from './icons/icon_flecha.png';
 import './styles.css';
-import banderas from './banderas';
 
 export default function Conversor({
   
@@ -27,17 +26,7 @@ export default function Conversor({
       year: 'numeric'
     });
   };
-
-  // Función para formatear la hora en formato chileno
-  const formatHoraChilena = (fecha) => {
-    const date = new Date(fecha);
-    return date.toLocaleTimeString('es-CL', {
-      hour: '2-digit',
-      minute: '2-digit',
-      second: '2-digit'
-    });
-  };
-
+  
   return (
     <Paper
     shadow="xl" 
@@ -114,7 +103,7 @@ export default function Conversor({
         <Grid>
           <Grid.Col span={3}>
           
-          <h2>Ultimo Cierre</h2>
+          <h2>Último Cierre</h2>
           
           
 
@@ -136,7 +125,7 @@ export default function Conversor({
 
           <Grid.Col span={5}>
 
-          <h2>Fecha de Actualizacion</h2>
+          <h2>Fecha de Actualización</h2>
           <h2>{monedaSeleccionada ? formatFechaChilena(monedaSeleccionada.fechaActualizacion): ''}</h2>
 
           </Grid.Col>
