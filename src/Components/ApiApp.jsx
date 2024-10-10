@@ -5,6 +5,7 @@ import Conversor from './conversor';
 import { InfoConversion } from './infoConversion';
 import Banderas from './banderas';
 import Body from './Body';
+import { Explication } from './Explication';
 import './styles.css';
 
 export default function ApiApp() {
@@ -98,6 +99,7 @@ export default function ApiApp() {
       />
       
       <Body /> 
+      <Explication/>
 
     </Stack>
   );
