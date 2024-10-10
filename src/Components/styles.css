@@ -43,5 +43,57 @@
 }
 
 .select {
-    width: 90px;
+    width: 80px;
+    border: none;
+    margin-left: 20px; 
+    
+    
+}
+
+.select:hover {
+    border: none; /* Cambia el borde al pasar el ratón */
+    background-color: white; /* Cambia el color de fondo al pasar el ratón */
+}
+
+.select:focus {
+    outline: none; /* Elimina el borde que aparece al enfocar */
+}
+
+#clp {
+    margin-left: 20px;
+    position: static;
+}
+
+.flecha {
+    animation: rotate 1s;
+}
+
+@keyframes rotate {
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+@keyframes rotate_circular {
+
+    100% {
+        transform: rotate(-360deg);
+    }
+}
+
+  .boton {
+    margin-left: 145px;
+    margin-top: 100px;
+    position: static;
+  }
+
+  #fec_actuali{
+    margin-left: 100px;
+    position: static;
+  }
+
+
+.flecha_circular {
+    animation: rotate_circular 2s infinite;
 }

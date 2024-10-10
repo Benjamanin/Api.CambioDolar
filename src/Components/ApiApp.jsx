@@ -2,73 +2,100 @@ import React, { useState, useEffect } from 'react';
 import { Stack } from '@mantine/core';
 import Titulo from './titulo';
 import Conversor from './conversor';
-import { InfoConversion } from './InfoConversion';
+import { InfoConversion } from './infoConversion';
+import Banderas from './banderas';
 import './styles.css';
 
 export default function ApiApp() {
-  // Estado para la moneda seleccionada
-  const [monedaSeleccionada, setMonedaSeleccionada] = useState('');
-  // Estado para la tasa de cambio
-  const [tasa, setTasa] = useState(null);
-  // Estado para la cantidad a convertir
+  //Estados
+  const [cotizaciones, setCotizaciones] = useState([]);
+  const [monedaSeleccionada, setMonedaSeleccionada] = useState(null);
   const [cantidad, setCantidad] = useState('');
-  // Estado para la cantidad convertida
-  const [cantidadConvertida, setCantidadConvertida] = useState(null);
+  const [resultado, setResultado] = useState(null);
+  const [valorVentaDolar, setValorVentaDolar] = useState(null);
+  const [animarFlecha, setAnimarFlecha] = useState(false);
 
-  // Efecto para obtener la tasa de cambio cuando se selecciona una moneda
+  //El hook useEffect se ejecuta después de que el componente se renderiza por primera vez
   useEffect(() => {
-    if (monedaSeleccionada) {
-      fetch(`https://api.exchangerate-api.com/v4/latest/${monedaSeleccionada}`)
-        .then(response => response.json())
-        .then(data => {
-          // Verificar si la tasa de cambio existe antes de establecerla
-          const tasaCambio = data.rates.USD; // Usamos la tasa de cambio a USD
-          if (tasaCambio) {
-            setTasa(tasaCambio);
-          } else {
-            console.error('Tasa de cambio no encontrada para USD');
-          }
-        })
-        .catch(error => console.error('Error:', error));
-    }
-  }, [monedaSeleccionada]);
 
-  // Maneja el cambio de moneda seleccionada
-  const manejarCambioMoneda = (value) => {
-    setMonedaSeleccionada(value);
+    fetch("https://cl.dolarapi.com/v1/cotizaciones")
+      .then(response => response.json())
+      .then(data => {
+        setCotizaciones(data);
+
+        // Se usaba para obtener el valor de venta del dólar y sacar el valor del euro
+        const dolar = data.find(moneda => moneda.moneda === 'USD');
+        setValorVentaDolar(dolar.venta); // Guarda el valor de venta del dólar
+      })
+      .catch(error => console.error('Error fetching data:', error));
+
+  }, []);
+
+
+//FUNCIONES
+
+//Función para manejar los cambios en el select de monedas  
+  const handleSelectChange = (event) => {
+    const moneda = cotizaciones.find(moneda => moneda.moneda === event.target.value);
+    
+    setMonedaSeleccionada(moneda);
+    
+    setResultado(null); // Resetear el resultado cuando se cambia la moneda
   };
 
-  // Maneja la conversión de la cantidad ingresada
-  const manejarConversion = () => {
-    if (tasa && cantidad) {
-      setCantidadConvertida((cantidad * tasa).toFixed(2)); // Convertimos la moneda seleccionada a USD
-    } else {
-      setCantidadConvertida(null); // Resetea la cantidad convertida si no hay tasa o cantidad
-    }
-  };
-
-  // Maneja el cambio en la cantidad ingresada
-  const manejarCambioCantidad = (event) => {
+//Función para manejar los cambios en el input de cantidad
+  const handleInputChange = (event) => {
     setCantidad(event.target.value);
   };
 
+//Función para convertir la moneda
+  const convertirMoneda = () => {
+    if (monedaSeleccionada) {
+      if (monedaSeleccionada.moneda === 'EUR') {
+        // Calcula la conversión de EUR a CLP
+        const conversion = cantidad*1000*monedaSeleccionada.venta; 
+        setResultado(conversion);
+      } else {
+        // Calcula la conversión para otras monedas
+        const conversion = cantidad * monedaSeleccionada.venta;
+        setResultado(conversion);
+      }
+    }
+    setAnimarFlecha(true);
+    setTimeout(() => setAnimarFlecha(false), 2000); // Detener después de 2 segundos
+
+  };
+
+//FUNCIONES
+
   return (
+    // Stack es un contenedor vertical de los componentes
+
     <Stack>
       <Titulo />
 
       <br />
 
-      <InfoConversion />
-            
+      <InfoConversion monedaSeleccionada={monedaSeleccionada ? monedaSeleccionada.nombre : ''} />
+
+      <Banderas 
+        animarFlecha={animarFlecha} 
+        monedaSeleccionada={monedaSeleccionada ? monedaSeleccionada.moneda : ''} 
+      />
+
       <Conversor
         monedaSeleccionada={monedaSeleccionada}
         cantidad={cantidad}
-        tasa={tasa}
-        cantidadConvertida={cantidadConvertida}
-        manejarCambioMoneda={manejarCambioMoneda}
-        manejarCambioCantidad={manejarCambioCantidad}
-        manejarConversion={manejarConversion}
-      />
+        resultado={resultado}
+        valorVentaDolar={valorVentaDolar}
+        handleSelectChange={handleSelectChange}
+        handleInputChange={handleInputChange}
+        convertirMoneda={convertirMoneda}
+        cotizaciones={cotizaciones}
+        animarFlecha={animarFlecha}
+
+      /> 
+
     </Stack>
   );
 }

@@ -7,7 +7,7 @@ export default function Titulo() {
         
         <img src={Icon_dolar} alt="dolar" width={60} height={60} />
         
-        <h1 id='text_header'>Conversor de monedas</h1>
+        <h1 id='text_header'></h1>
     </header>
   );
 }

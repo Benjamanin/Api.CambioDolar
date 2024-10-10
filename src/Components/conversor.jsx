@@ -1,19 +1,42 @@
 import React from 'react';
-import { TextInput, Button, Select, Group, Paper} from '@mantine/core';
+import { TextInput, Button,   Grid, Group, Paper} from '@mantine/core';
 import Dolar from './icons/dolar.png';
 import Icon_Flecha from './icons/icon_flecha.png';
 import './styles.css';
-
+import banderas from './banderas';
 
 export default function Conversor({
-  monedaSeleccionada,
+  
   cantidad,
-  tasa,
-  cantidadConvertida,
-  manejarCambioMoneda,
-  manejarCambioCantidad,
-  manejarConversion,
+  resultado,
+  handleSelectChange,
+  handleInputChange,
+  convertirMoneda,
+  cotizaciones,
+  animarFlecha,
+  monedaSeleccionada,
+  
 }) {
+
+  // Función para formatear la fecha en formato chileno
+  const formatFechaChilena = (fecha) => {
+    const date = new Date(fecha);
+    return date.toLocaleDateString('es-CL', {
+      day: '2-digit',
+      month: '2-digit',
+      year: 'numeric'
+    });
+  };
+
+  // Función para formatear la hora en formato chileno
+  const formatHoraChilena = (fecha) => {
+    const date = new Date(fecha);
+    return date.toLocaleTimeString('es-CL', {
+      hour: '2-digit',
+      minute: '2-digit',
+      second: '2-digit'
+    });
+  };
 
   return (
     <Paper
@@ -45,56 +68,93 @@ export default function Conversor({
               radius="lg"
               type='number'
               placeholder="Cantidad"
+              onlyNumber
               value={cantidad}
-              onChange={manejarCambioCantidad} 
+              onChange={handleInputChange} 
               />
 
-              <Select
-              variant="unstyled"
-              data={[
-                  { value: 'CLP', label: 'CLP' },                    
-                  { value: 'EUR', label: 'EUR' },
-                  { value: 'JPY', label: 'JPY' },
-                  { value: 'GBP', label: 'GBP' },
-                  { value: 'MXN', label: 'MXN' },
-                  { value: 'BRL', label: 'BRL' },
-                  { value: 'CNY', label: 'CNY' },
-                  { value: 'INR', label: 'INR' },
-                  { value: 'CHF', label: 'CHF' },
-                  { value: 'CAD', label: 'CAD' },
-              ]}
-              value={monedaSeleccionada}
-              onChange={manejarCambioMoneda}  
-              placeholder="Seleccione una moneda"
-              size="md"
-              radius="lg"
-              className='select'
-              />
+          <select 
+          className='select'
+          onChange = {handleSelectChange} 
+          >
+            <option value=""></option>
+            {cotizaciones.map((moneda, index) => (
+              <option 
+                key={index} value={moneda.moneda}> 
+                {moneda.moneda}
+              </option>
+            ))}
+          </select>
+
+
           </Group>
 
-          <img src={Icon_Flecha} alt="flecha" width={40} height={40} />
+          <img className={animarFlecha ? 'flecha' : ''} src={Icon_Flecha} alt="flecha" width={40} height={40} />
         
           <Group className='group_inner'>
               <img src={Dolar} alt="dolar" width={40} height={40} />
-              <p>{cantidadConvertida} USD</p>
+              <TextInput
+              variant='unstyled'
+              size='md'
+              radius="lg"
+              type='number'
+              placeholder="Convertido a"
+              readOnly 
+              value={resultado}
+              />
+              
+              <p id='clp'>CLP</p>
 
           </Group>
 
         </Group>
         
-        <Group>
-        <h2>Ultima Actualizacion</h2>
+        {/* Grid que contiene los elementos inferiores */}
+
+        <Grid>
+          <Grid.Col span={3}>
+          
+          <h2>Ultimo Cierre</h2>
+          
           
 
+          <h2>
+            
+            {monedaSeleccionada ? (
+            <>
+              $ <span style={{ color: '#26b99a' }}>{
+              
+              monedaSeleccionada.moneda === 'EUR' 
+                  ? (monedaSeleccionada.ultimoCierre * 1000).toFixed(2) 
+                  : monedaSeleccionada.ultimoCierre.toFixed(2)}</span> CLP
+            </>
+            ) : ''}
+
+          </h2>
+
+          </Grid.Col>
+
+          <Grid.Col span={5}>
+
+          <h2>Fecha de Actualizacion</h2>
+          <h2>{monedaSeleccionada ? formatFechaChilena(monedaSeleccionada.fechaActualizacion): ''}</h2>
+
+          </Grid.Col>
+          
+          <Grid.Col span={1}>
+
           <Button
-              onClick={manejarConversion}
+              onClick={convertirMoneda}
+              className='boton'
               mt="xl"
               size='md'
               variant="outline"
               radius="lg">Convertir
+              
           </Button>
 
-        </Group>
+          </Grid.Col>
+        </Grid>
 
         
       </div>

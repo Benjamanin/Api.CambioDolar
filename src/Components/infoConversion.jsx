@@ -1,16 +1,15 @@
 
-export function InfoConversion() {
+export function InfoConversion({monedaSeleccionada }) {
+    
     return (
         <div>
         <h2
         id = 'infoconversion'
         >
-            Convierta 1 Dólar estadounidense a Peso chileno - USD a CLP
+            Convierta {monedaSeleccionada} a Peso chileno
         </h2>
 
-        <p id="parrafo">
-            Conversor de divisas
-        </p>
+     
         </div>
     );
 }
